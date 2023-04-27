@@ -1,0 +1,38 @@
+{
+  "name": "rn-munkaido-firebase",
+  "version": "1.0.0",
+  "author": "Zsolt Lengyel <zsolt.lengyel21@gmail.com>",
+  "license": "MIT",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start --tunnel",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.17.11",
+    "@react-navigation/native": "^6.1.2",
+    "@react-navigation/native-stack": "^6.9.8",
+    "expo": "~47.0.12",
+    "expo-status-bar": "~1.4.2",
+    "firebase": "^9.16.0",
+    "react": "18.1.0",
+    "react-native": "0.70.5",
+    "react-native-keyboard-aware-scroll-view": "^0.9.5",
+    "react-native-safe-area-context": "4.4.1",
+    "react-native-screens": "~3.18.0",
+    "react-native-svg": "13.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "eslint": "^8.32.0",
+    "eslint-config-universe": "^11.1.1",
+    "eslint-plugin-auto-import": "^0.1.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react-native": "^4.0.0",
+    "prettier": "^2.8.3"
+  },
+  "private": true
+}
