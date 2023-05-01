@@ -30,15 +30,27 @@ const LoginPage = ({ setUserData }) => {
 
   const register = async () => {
     console.log('registering...');
-    await signUp(email, password);
-    const initialUserData = {
-      name: userName,
-      email: email.toLowerCase(),
-      currentState: 'out',
-      // history: [],
+
+    const isPasswordMatch = function (password, passwordConfirm) {
+      if (password !== passwordConfirm) {
+        return false;
+      }
+      return true;
     };
-    await createUserData(initialUserData);
-    setUserData(initialUserData);
+
+    if (isPasswordMatch(password, passwordConfirm)) {
+      await signUp(email, password);
+      const initialUserData = {
+        name: userName,
+        email: email.toLowerCase(),
+        currentState: 'out',
+        // history: [],
+      };
+      await createUserData(initialUserData);
+      setUserData(initialUserData);
+    } else {
+      alert('A jelszavak nem egyeznek');
+    }
   };
 
   return (
