@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
   TextInput,
   Button,
+  // eslint-disable-next-line import/namespace
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import { signIn, signUp } from '../auth';
+import { signIn, signUp, resetPassword } from '../auth.js';
 import { getUserDataByEmail, createUserData } from '../database';
 
 const LoginPage = ({ setUserData }) => {
@@ -30,14 +31,12 @@ const LoginPage = ({ setUserData }) => {
 
   const register = async () => {
     console.log('registering...');
-
     const isPasswordMatch = function (password, passwordConfirm) {
       if (password !== passwordConfirm) {
         return false;
       }
       return true;
     };
-
     if (isPasswordMatch(password, passwordConfirm)) {
       await signUp(email, password);
       const initialUserData = {
@@ -50,6 +49,16 @@ const LoginPage = ({ setUserData }) => {
       setUserData(initialUserData);
     } else {
       alert('A jelszavak nem egyeznek');
+    }
+  };
+
+  const passwordReset = function () {
+    if (email === '') {
+      window.alert('Az email cím nincs kitöltve');
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      return window.alert('Nem megfelelő e-mail formátum');
+    } else {
+      resetPassword(email);
     }
   };
 
@@ -105,6 +114,9 @@ const LoginPage = ({ setUserData }) => {
             onChangeText={setPassword}
             secureTextEntry={true}
           />
+          <TouchableOpacity style={styles.passwordResetButton} onPress={passwordReset}>
+            <Text style={styles.passwordResetText}>Elfelejtett jelszó</Text>
+          </TouchableOpacity>
           {isSignUpActive && (
             <TextInput
               style={styles.input}
@@ -184,6 +196,15 @@ const styles = StyleSheet.create({
   },
   activeText: {
     color: '#ffffff',
+  },
+  passwordResetText: {
+    fontSize: 10,
+    fontStyle: 'italic',
+  },
+  passwordResetButton: {
+    alignSelf: 'flex-end',
+    marginRight: 20,
+    padding: 5,
   },
 });
 

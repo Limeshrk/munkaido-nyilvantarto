@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line import/namespace
 import { View, Text, TouchableOpacity, StyleSheet, Switch } from 'react-native';
 
 import { signOutUser } from '../auth';

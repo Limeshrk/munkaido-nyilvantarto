@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+// eslint-disable-next-line import/namespace
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 
 import { getHistory } from '../database';
