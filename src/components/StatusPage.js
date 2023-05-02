@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // eslint-disable-next-line import/namespace
-import { View, Text, TouchableOpacity, StyleSheet, Switch } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Switch, Image } from 'react-native';
 
 import { signOutUser } from '../auth';
 import { addHistory, updateUserState } from '../database';
@@ -21,7 +21,26 @@ const StatusPage = ({ navigation: { navigate }, userData, setUserData }) => {
     setUserData({ ...userData, currentState: newState });
     updateUserState(userData.email, newState);
     addHistory(userData.email, newState);
+    generateImage();
   };
+
+  const [link, setLink] = useState('');
+
+  const generateImage = async () => {
+    try {
+      const response = await fetch('https://inspirobot.me/api?generate=true');
+      const link = await response.text();
+      setLink(link);
+      console.log('Egy kis motiváció');
+      return link;
+    } catch (error) {
+      console.log('Hiba a motiváció keresésekor:', error);
+    }
+  };
+
+  useEffect(() => {
+    generateImage();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -44,6 +63,9 @@ const StatusPage = ({ navigation: { navigate }, userData, setUserData }) => {
       <TouchableOpacity onPress={() => navigate('Napló')} style={[styles.button, styles.shadow]}>
         <Text style={styles.buttonText}>Napló megtekintése</Text>
       </TouchableOpacity>
+      <View>
+        <Image style={styles.image} source={{ uri: link }} />
+      </View>
     </View>
   );
 };
@@ -97,6 +119,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
+  },
+  image: {
+    width: 400,
+    height: 400,
+    resizeMode: 'contain',
   },
 });
 
