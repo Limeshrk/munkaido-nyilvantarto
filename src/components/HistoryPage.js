@@ -24,6 +24,7 @@ export default function HistoryPage(props) {
           onPress: async () => {
             try {
               await deleteHistoryById(props.userData.email, item.id);
+              props.toggleSwitch();
               console.log('Bejegyzés törölve, history frissitése');
               await refreshHistory();
             } catch (error) {

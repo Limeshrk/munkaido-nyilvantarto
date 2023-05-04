@@ -5,7 +5,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Switch, Image } from 'react-n
 import { signOutUser } from '../auth';
 import { addHistory, updateUserState } from '../database';
 
-const StatusPage = ({ navigation: { navigate }, userData, setUserData }) => {
+const StatusPage = ({ navigation: { navigate }, userData, setUserData, toggleSwitch }) => {
   const [link, setLink] = useState('');
 
   const generateImage = async () => {
@@ -19,16 +19,9 @@ const StatusPage = ({ navigation: { navigate }, userData, setUserData }) => {
       console.log('Hiba a motiváció keresésekor:', error);
     }
   };
-
-  const toggleSwitch = () => {
-    let newState = '';
-    if (userData.currentState === 'in') {
-      newState = 'out';
-    } else {
-      newState = 'in';
-    }
-    setUserData({ ...userData, currentState: newState });
-    updateUserState(userData.email, newState);
+  //toggleSwitch az Innerpagebe került, itt kezelendő: kapcsoló használata és új bejegyzés (kell hozzá a megváltozott állapot), képgenerálás
+  const stateChange = () => {
+    const newState = toggleSwitch();
     addHistory(userData.email, newState);
     generateImage();
   };
@@ -52,7 +45,7 @@ const StatusPage = ({ navigation: { navigate }, userData, setUserData }) => {
         trackColor={{ false: '#767577', true: '#81b0ff' }}
         thumbColor={userData.currentState === 'in' ? '#f5dd4b' : '#f4f3f4'}
         ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
+        onValueChange={stateChange}
         value={userData.currentState === 'in'}
       />
       <TouchableOpacity onPress={() => navigate('Napló')} style={[styles.button, styles.shadow]}>

@@ -114,9 +114,11 @@ const LoginPage = ({ setUserData }) => {
             onChangeText={setPassword}
             secureTextEntry={true}
           />
-          <TouchableOpacity style={styles.passwordResetButton} onPress={passwordReset}>
-            <Text style={styles.passwordResetText}>Elfelejtett jelszó</Text>
-          </TouchableOpacity>
+          {!isSignUpActive && (
+            <TouchableOpacity style={styles.passwordResetButton} onPress={passwordReset}>
+              <Text style={styles.passwordResetText}>Elfelejtett jelszó</Text>
+            </TouchableOpacity>
+          )}
           {isSignUpActive && (
             <TextInput
               style={styles.input}
