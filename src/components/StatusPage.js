@@ -6,11 +6,6 @@ import { signOutUser } from '../auth';
 import { addHistory, updateUserState } from '../database';
 
 const StatusPage = ({ navigation: { navigate }, userData, setUserData }) => {
-  const handleLogout = async () => {
-    await signOutUser();
-    setUserData(null);
-  };
-
   const toggleSwitch = () => {
     let newState = '';
     if (userData.currentState === 'in') {
@@ -45,8 +40,8 @@ const StatusPage = ({ navigation: { navigate }, userData, setUserData }) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoutSection}>
-        <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-          <Text style={styles.logoutButtonText}>Kijelentkezés</Text>
+        <TouchableOpacity style={styles.logoutButton} onPress={() => navigate('Beállítások')}>
+          <Text style={styles.logoutButtonText}>Beállítások</Text>
         </TouchableOpacity>
       </View>
       <Text style={styles.appTitle}>Szia {userData.name}!</Text>
