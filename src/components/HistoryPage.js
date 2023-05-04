@@ -1,11 +1,49 @@
 import React, { useEffect, useState } from 'react';
 // eslint-disable-next-line import/namespace
-import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
+import { SvgXml } from 'react-native-svg';
 
-import { getHistory } from '../database';
+import trashIcon from '../../assets/Trash_font_awesome.js';
+import { getHistory, deleteHistoryById } from '../database';
 
 export default function HistoryPage(props) {
   const [history, setHistory] = useState([]);
+
+  const handleDelete = async item => {
+    Alert.alert(
+      'Biztos töröljem?',
+      'Biztos törlöd a bejegyzést?',
+      [
+        {
+          text: 'Mégse',
+          style: 'cancel',
+        },
+        {
+          text: 'Törlés',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await deleteHistoryById(props.userData.email, item.id);
+              console.log('Bejegyzés törölve, history frissitése');
+              await refreshHistory();
+            } catch (error) {
+              console.error(error);
+            }
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
+
+  const refreshHistory = async () => {
+    try {
+      const newhistory = await getHistory(props.userData.email);
+      setHistory(newhistory);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const renderItem = ({ item, index }) => (
     <View
@@ -24,6 +62,16 @@ export default function HistoryPage(props) {
           {item.state === 'in' ? 'bejött' : 'távozott'}
         </Text>
       </View>
+      {index === 0 && (
+        <TouchableOpacity
+          onPress={() => {
+            handleDelete(item);
+          }}>
+          <View style={styles.deleteButtonContainer}>
+            <SvgXml xml={trashIcon} style={styles.deleteIcon} />
+          </View>
+        </TouchableOpacity>
+      )}
     </View>
   );
 
@@ -56,12 +104,23 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   historyTextContainer: {},
   currentStateText: {
     fontSize: 17,
     color: 'white',
   },
+  deleteButtonContainer: {
+    width: 24,
+    height: 24,
+    marginRight: 8,
+    alignItems: 'center',
+  },
+  deleteIcon: {
+    color: 'red',
+  },
+
   containerIn: {
     backgroundColor: '#165BAA',
   },
