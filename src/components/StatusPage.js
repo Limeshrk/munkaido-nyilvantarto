@@ -6,19 +6,6 @@ import { signOutUser } from '../auth';
 import { addHistory, updateUserState } from '../database';
 
 const StatusPage = ({ navigation: { navigate }, userData, setUserData }) => {
-  const toggleSwitch = () => {
-    let newState = '';
-    if (userData.currentState === 'in') {
-      newState = 'out';
-    } else {
-      newState = 'in';
-    }
-    setUserData({ ...userData, currentState: newState });
-    updateUserState(userData.email, newState);
-    addHistory(userData.email, newState);
-    generateImage();
-  };
-
   const [link, setLink] = useState('');
 
   const generateImage = async () => {
@@ -31,6 +18,19 @@ const StatusPage = ({ navigation: { navigate }, userData, setUserData }) => {
     } catch (error) {
       console.log('Hiba a motiváció keresésekor:', error);
     }
+  };
+
+  const toggleSwitch = () => {
+    let newState = '';
+    if (userData.currentState === 'in') {
+      newState = 'out';
+    } else {
+      newState = 'in';
+    }
+    setUserData({ ...userData, currentState: newState });
+    updateUserState(userData.email, newState);
+    addHistory(userData.email, newState);
+    generateImage();
   };
 
   useEffect(() => {
