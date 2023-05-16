@@ -21,7 +21,7 @@ const InnerPage = ({ userData, setUserData }) => {
     setUserData({ ...userData, currentState: newState });
     updateUserState(userData.email, newState);
     //historyt nem kell mindig frissiteni  amikor a kapcsolo állapota változik (maradt a StatusPage-en)
-    return newState; //tovább kell vinni hogy az uj állapot (pl. history irás)
+    return newState; //tovább kell vinni hogy az uj mi állapot (kell a history iráshoz)
   };
 
   return (
